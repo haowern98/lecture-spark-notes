@@ -19,11 +19,10 @@ import { SlidesReview } from "./SlidesReview";
 
 export const LectureDashboard = () => {
   const [isRecording, setIsRecording] = useState(false);
-  const [activeTab, setActiveTab] = useState<'live' | 'chat' | 'slides'>('live');
 
   const handleStartRecording = () => {
     setIsRecording(true);
-    // In a real app, this would start screen capture and audio recording
+    // In a real app, this would start screen capture
   };
 
   const handleStopRecording = () => {
@@ -71,85 +70,21 @@ export const LectureDashboard = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex gap-2">
-          <Button
-            variant={activeTab === 'live' ? 'default' : 'ghost'}
-            onClick={() => setActiveTab('live')}
-            className="flex items-center gap-2"
-          >
-            <Monitor className="h-4 w-4" />
-            Live Analysis
-          </Button>
-          <Button
-            variant={activeTab === 'chat' ? 'default' : 'ghost'}
-            onClick={() => setActiveTab('chat')}
-            className="flex items-center gap-2"
-          >
-            <MessageSquare className="h-4 w-4" />
-            AI Chat
-          </Button>
-          <Button
-            variant={activeTab === 'slides' ? 'default' : 'ghost'}
-            onClick={() => setActiveTab('slides')}
-            className="flex items-center gap-2"
-          >
-            <FileText className="h-4 w-4" />
-            Review Slides
-          </Button>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {activeTab === 'live' && <LiveCapture isRecording={isRecording} />}
-            {activeTab === 'chat' && <AIChat />}
-            {activeTab === 'slides' && <SlidesReview />}
+        {/* Three Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Screen Share - Small */}
+          <div className="lg:col-span-1">
+            <LiveCapture isRecording={isRecording} />
           </div>
 
-          {/* Right Column - Real-time Summary */}
-          <div className="space-y-6">
+          {/* Summary - Medium */}
+          <div className="lg:col-span-1">
             <RealtimeSummary isRecording={isRecording} />
-            
-            {/* Recording Status */}
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-primary" />
-                  Session Status
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Screen Capture</span>
-                  <div className="flex items-center gap-2">
-                    <Monitor className="h-4 w-4 text-muted-foreground" />
-                    <Badge variant={isRecording ? "default" : "secondary"}>
-                      {isRecording ? "Active" : "Inactive"}
-                    </Badge>
-                  </div>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Audio Capture</span>
-                  <div className="flex items-center gap-2">
-                    <Mic className="h-4 w-4 text-muted-foreground" />
-                    <Badge variant={isRecording ? "default" : "secondary"}>
-                      {isRecording ? "Active" : "Inactive"}
-                    </Badge>
-                  </div>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Session Time</span>
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-mono">00:00:00</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          </div>
+
+          {/* Slides Review - Large */}
+          <div className="lg:col-span-2">
+            <SlidesReview />
           </div>
         </div>
       </div>
