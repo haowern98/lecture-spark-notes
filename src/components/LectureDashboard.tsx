@@ -8,18 +8,18 @@ import {
   Play, 
   Square, 
   Clock, 
-  MessageSquare,
+  Users,
   FileText,
   Brain
 } from "lucide-react";
 import { LiveCapture } from "./LiveCapture";
-import { RealtimeSummary } from "./RealtimeSummary";
 import { AIChat } from "./AIChat";
+import { Interview } from "./Interview";
 import { SlidesReview } from "./SlidesReview";
 
 export const LectureDashboard = () => {
   const [isRecording, setIsRecording] = useState(false);
-  const [activeTab, setActiveTab] = useState<'live' | 'chat' | 'slides'>('live');
+  const [activeTab, setActiveTab] = useState<'live' | 'interview' | 'slides'>('live');
 
   const handleStartRecording = () => {
     setIsRecording(true);
@@ -82,12 +82,12 @@ export const LectureDashboard = () => {
             Live Analysis
           </Button>
           <Button
-            variant={activeTab === 'chat' ? 'default' : 'ghost'}
-            onClick={() => setActiveTab('chat')}
+            variant={activeTab === 'interview' ? 'default' : 'ghost'}
+            onClick={() => setActiveTab('interview')}
             className="flex items-center gap-2"
           >
-            <MessageSquare className="h-4 w-4" />
-            AI Chat
+            <Users className="h-4 w-4" />
+            Interview
           </Button>
           <Button
             variant={activeTab === 'slides' ? 'default' : 'ghost'}
@@ -104,13 +104,13 @@ export const LectureDashboard = () => {
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {activeTab === 'live' && <LiveCapture isRecording={isRecording} />}
-            {activeTab === 'chat' && <AIChat />}
+            {activeTab === 'interview' && <Interview isRecording={isRecording} />}
             {activeTab === 'slides' && <SlidesReview />}
           </div>
 
-          {/* Right Column - Real-time Summary */}
+          {/* Right Column - AI Chat */}
           <div className="space-y-6">
-            <RealtimeSummary isRecording={isRecording} />
+            <AIChat />
             
             {/* Recording Status */}
             <Card className="shadow-card">
