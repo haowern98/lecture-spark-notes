@@ -13,7 +13,7 @@ import {
   Brain
 } from "lucide-react";
 import { LiveCapture } from "./LiveCapture";
-import { AIChat } from "./AIChat";
+import { RealtimeSummary } from "./RealtimeSummary";
 import { Interview } from "./Interview";
 import { SlidesReview } from "./SlidesReview";
 
@@ -110,7 +110,7 @@ export const LectureDashboard = () => {
 
           {/* Right Column - AI Chat */}
           <div className="space-y-6">
-            <AIChat />
+            <RealtimeSummary isRecording={isRecording} />
             
             {/* Recording Status */}
             <Card className="shadow-card">
