@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { 
   Monitor, 
   Mic, 
@@ -16,6 +17,7 @@ import { LiveCapture } from "./LiveCapture";
 import { AIChat } from "./AIChat";
 import { Interview } from "./Interview";
 import { SlidesReview } from "./SlidesReview";
+import { ThemeToggle } from "./theme-toggle";
 
 export const LectureDashboard = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -47,7 +49,8 @@ export const LectureDashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <Badge variant={isRecording ? "destructive" : "secondary"}>
+            <ThemeToggle />
+            <Badge variant={isRecording ? "destructive" : "secondary"} className="px-3 py-1">
               {isRecording ? "Recording" : "Idle"}
             </Badge>
             
@@ -73,45 +76,33 @@ export const LectureDashboard = () => {
         </div>
 
         {/* Mode Navigation */}
-        <div className="flex gap-2 mb-4">
-          <Button
-            variant={activeMode === 'lecture' ? 'default' : 'ghost'}
-            onClick={() => setActiveMode('lecture')}
-            className="flex items-center gap-2"
-          >
-            <Brain className="h-4 w-4" />
-            Lecture Mode
-          </Button>
-          <Button
-            variant={activeMode === 'interview' ? 'default' : 'ghost'}
-            onClick={() => setActiveMode('interview')}
-            className="flex items-center gap-2"
-          >
-            <Users className="h-4 w-4" />
-            Interview Mode
-          </Button>
-        </div>
+        <Card className="p-2 shadow-card">
+          <ToggleGroup type="single" value={activeMode} onValueChange={(value) => value && setActiveMode(value as 'lecture' | 'interview')}>
+            <ToggleGroupItem value="lecture" aria-label="Lecture Mode" className="flex items-center gap-2 px-4 py-2">
+              <Brain className="h-4 w-4" />
+              Lecture Mode
+            </ToggleGroupItem>
+            <ToggleGroupItem value="interview" aria-label="Interview Mode" className="flex items-center gap-2 px-4 py-2">
+              <Users className="h-4 w-4" />
+              Interview Mode
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </Card>
 
         {/* Lecture Mode Sub-tabs */}
         {activeMode === 'lecture' && (
-          <div className="flex gap-2">
-            <Button
-              variant={lectureTab === 'live' ? 'default' : 'ghost'}
-              onClick={() => setLectureTab('live')}
-              className="flex items-center gap-2"
-            >
-              <Monitor className="h-4 w-4" />
-              Live Analysis
-            </Button>
-            <Button
-              variant={lectureTab === 'slides' ? 'default' : 'ghost'}
-              onClick={() => setLectureTab('slides')}
-              className="flex items-center gap-2"
-            >
-              <FileText className="h-4 w-4" />
-              Review Slides
-            </Button>
-          </div>
+          <Card className="p-2 shadow-card">
+            <ToggleGroup type="single" value={lectureTab} onValueChange={(value) => value && setLectureTab(value as 'live' | 'slides')}>
+              <ToggleGroupItem value="live" aria-label="Live Analysis" className="flex items-center gap-2 px-4 py-2">
+                <Monitor className="h-4 w-4" />
+                Live Analysis
+              </ToggleGroupItem>
+              <ToggleGroupItem value="slides" aria-label="Review Slides" className="flex items-center gap-2 px-4 py-2">
+                <FileText className="h-4 w-4" />
+                Review Slides
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </Card>
         )}
 
         {/* Main Content */}
