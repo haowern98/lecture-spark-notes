@@ -19,7 +19,8 @@ import { SlidesReview } from "./SlidesReview";
 
 export const LectureDashboard = () => {
   const [isRecording, setIsRecording] = useState(false);
-  const [activeTab, setActiveTab] = useState<'live' | 'interview' | 'slides'>('live');
+  const [activeMode, setActiveMode] = useState<'lecture' | 'interview'>('lecture');
+  const [lectureTab, setLectureTab] = useState<'live' | 'slides'>('live');
 
   const handleStartRecording = () => {
     setIsRecording(true);
@@ -71,41 +72,55 @@ export const LectureDashboard = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex gap-2">
+        {/* Mode Navigation */}
+        <div className="flex gap-2 mb-4">
           <Button
-            variant={activeTab === 'live' ? 'default' : 'ghost'}
-            onClick={() => setActiveTab('live')}
+            variant={activeMode === 'lecture' ? 'default' : 'ghost'}
+            onClick={() => setActiveMode('lecture')}
             className="flex items-center gap-2"
           >
-            <Monitor className="h-4 w-4" />
-            Live Analysis
+            <Brain className="h-4 w-4" />
+            Lecture Mode
           </Button>
           <Button
-            variant={activeTab === 'interview' ? 'default' : 'ghost'}
-            onClick={() => setActiveTab('interview')}
+            variant={activeMode === 'interview' ? 'default' : 'ghost'}
+            onClick={() => setActiveMode('interview')}
             className="flex items-center gap-2"
           >
             <Users className="h-4 w-4" />
-            Interview
-          </Button>
-          <Button
-            variant={activeTab === 'slides' ? 'default' : 'ghost'}
-            onClick={() => setActiveTab('slides')}
-            className="flex items-center gap-2"
-          >
-            <FileText className="h-4 w-4" />
-            Review Slides
+            Interview Mode
           </Button>
         </div>
+
+        {/* Lecture Mode Sub-tabs */}
+        {activeMode === 'lecture' && (
+          <div className="flex gap-2">
+            <Button
+              variant={lectureTab === 'live' ? 'default' : 'ghost'}
+              onClick={() => setLectureTab('live')}
+              className="flex items-center gap-2"
+            >
+              <Monitor className="h-4 w-4" />
+              Live Analysis
+            </Button>
+            <Button
+              variant={lectureTab === 'slides' ? 'default' : 'ghost'}
+              onClick={() => setLectureTab('slides')}
+              className="flex items-center gap-2"
+            >
+              <FileText className="h-4 w-4" />
+              Review Slides
+            </Button>
+          </div>
+        )}
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {activeTab === 'live' && <LiveCapture isRecording={isRecording} />}
-            {activeTab === 'interview' && <Interview isRecording={isRecording} />}
-            {activeTab === 'slides' && <SlidesReview />}
+            {activeMode === 'lecture' && lectureTab === 'live' && <LiveCapture isRecording={isRecording} />}
+            {activeMode === 'interview' && <Interview isRecording={isRecording} />}
+            {activeMode === 'lecture' && lectureTab === 'slides' && <SlidesReview />}
           </div>
 
           {/* Right Column - AI Chat */}
