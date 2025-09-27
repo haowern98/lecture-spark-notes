@@ -12,6 +12,7 @@ import {
   FileText,
   Brain
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { LiveCapture } from "./LiveCapture";
 import { RealtimeSummary } from "./RealtimeSummary";
 import { Interview } from "./Interview";
@@ -46,6 +47,8 @@ export const LectureDashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
+            <ThemeToggle />
+            
             <Badge variant={isRecording ? "destructive" : "secondary"}>
               {isRecording ? "Recording" : "Idle"}
             </Badge>
